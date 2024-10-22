@@ -67,7 +67,6 @@
         })
           .then((response) => {
             if (response.ok) {
-              alert("Пользователь зарегистрирован!");
               document.getElementById("registration").style.display = "none";
               document.getElementById("connection").style.display = "block";
             } else {
@@ -113,7 +112,9 @@
       }
 
       function displayMessage(msg) {
-        const chatAreaId = `chatArea_${msg.from}_${msg.to}`;
+        // Определяем уникальный идентификатор для чата на основе имён пользователей
+        const chatKey = [msg.from, msg.to].sort().join("_"); // Сортируем имена для единого идентификатора
+        const chatAreaId = `chatArea_${chatKey}`;
         let chatArea = document.getElementById(chatAreaId);
 
         // Создаем новую область чата, если её нет
@@ -121,7 +122,9 @@
           chatArea = document.createElement("div");
           chatArea.id = chatAreaId;
           chatArea.className = "chat-box";
-          chatArea.innerHTML = `<h3>Чат с ${msg.to}</h3>`;
+          chatArea.innerHTML = `<h3>Чат с ${
+            msg.from === currentUser ? msg.to : msg.from
+          }`;
           document.getElementById("chatBoxes").appendChild(chatArea);
         }
 
@@ -145,7 +148,8 @@
       }
 
       function displaySentMessage(msg) {
-        const chatAreaId = `chatArea_${msg.from}_${msg.to}`;
+        const chatKey = [msg.from, msg.to].sort().join("_"); // Сортируем имена для единого идентификатора
+        const chatAreaId = `chatArea_${chatKey}`;
         let chatArea = document.getElementById(chatAreaId);
 
         // Если область чата не существует, создаем её
@@ -153,7 +157,9 @@
           chatArea = document.createElement("div");
           chatArea.id = chatAreaId;
           chatArea.className = "chat-box";
-          chatArea.innerHTML = `<h3>Чат с ${msg.to}</h3>`;
+          chatArea.innerHTML = `<h3>Чат с ${
+            msg.from === currentUser ? msg.to : msg.from
+          }`;
           document.getElementById("chatBoxes").appendChild(chatArea);
         }
 
